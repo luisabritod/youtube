@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/CustomSearchDelegate.dart';
 import 'package:youtube/Screens/Biblioteca.dart';
 import 'package:youtube/Screens/EmAlta.dart';
 import 'package:youtube/Screens/Inicio.dart';
@@ -27,12 +28,20 @@ class _HomeState extends State<Home> {
           width: 98,
         ),
         actions: <Widget>[
-          IconButton(onPressed: () {}, icon: Icon(Icons.videocam)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.account_circle))
+          // IconButton(onPressed: () {}, icon: Icon(Icons.videocam)),
+          IconButton(
+              onPressed: () async {
+                String? result = await showSearch(
+                    context: context, delegate: CustomSearchDelegate());
+              },
+              icon: Icon(Icons.search)),
+          // IconButton(onPressed: () {}, icon: Icon(Icons.account_circle))
         ],
       ),
-      body: telas[_indiceAtual],
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: telas[_indiceAtual],
+      ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _indiceAtual,
           onTap: (indice) {
