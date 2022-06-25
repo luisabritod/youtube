@@ -14,10 +14,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _indiceAtual = 0;
+  String _resultado = '';
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> telas = [Inicio(), EmAlta(), Inscricoes(), Biblioteca()];
+    List<Widget> telas = [
+      Inicio(_resultado),
+      EmAlta(),
+      Inscricoes(),
+      Biblioteca()
+    ];
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.grey, opacity: 1),
@@ -28,14 +34,17 @@ class _HomeState extends State<Home> {
           width: 98,
         ),
         actions: <Widget>[
-          // IconButton(onPressed: () {}, icon: Icon(Icons.videocam)),
+          IconButton(onPressed: () {}, icon: Icon(Icons.videocam)),
           IconButton(
               onPressed: () async {
                 String? result = await showSearch(
                     context: context, delegate: CustomSearchDelegate());
+                setState(() {
+                  _resultado = result!;
+                });
               },
               icon: Icon(Icons.search)),
-          // IconButton(onPressed: () {}, icon: Icon(Icons.account_circle))
+          IconButton(onPressed: () {}, icon: Icon(Icons.account_circle))
         ],
       ),
       body: Container(
@@ -47,12 +56,18 @@ class _HomeState extends State<Home> {
           onTap: (indice) {
             setState(() {
               _indiceAtual = indice;
+              if (indice == 0) {
+                _resultado = '';
+              }
             });
           },
           type: BottomNavigationBarType.fixed,
           fixedColor: Colors.red,
           items: [
-            BottomNavigationBarItem(label: 'Início', icon: Icon(Icons.home)),
+            BottomNavigationBarItem(
+              label: 'Início',
+              icon: Icon(Icons.home),
+            ),
             BottomNavigationBarItem(
                 label: 'Em Alta', icon: Icon(Icons.whatshot)),
             BottomNavigationBarItem(
